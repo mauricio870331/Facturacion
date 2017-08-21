@@ -12,7 +12,7 @@ public class Conexion {
     public static Connection getConexion() {
         try {
             if (con == null) {
-                String url = "jdbc:mysql://127.0.0.1:3306/codigo_pymesapp?autoReconnect=true";
+                String url = "jdbc:mysql://localhost/codigo_pymesapp?autoReconnect=true";
                 String pwd = "";
                 String usr = "root";
 //                if (TipoCon.equals("remota")) {
@@ -26,7 +26,9 @@ public class Conexion {
                 Class.forName(driver);
                 //con = DriverManager.getConnection("jdbc:mysql://localhost/codigo_proyectos", "codigo_proyectos", "P}3LdHI^+WMV");
                 con = DriverManager.getConnection(url, usr, pwd);
+                System.out.println("conectado");
             }
+            
 
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, e);

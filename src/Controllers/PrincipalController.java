@@ -520,7 +520,11 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
 
         if (e.getSource() == pr.btnCancel) {
-            limpiarFactura();
+            try {
+                limpiarFactura();
+            } catch (JSONException | ParseException ex) {
+                System.out.println("error " + ex);
+            }
             isHospedaje = false;
             id_hospedajeU = 0;
             facturaDao = null;
@@ -529,7 +533,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 ocultarPaneles("mnuFacturacion");
                 try {
                     cargarTablaFactura("", true);
-                } catch (Exception ex) {
+                } catch (SQLException | ParseException | JSONException ex) {
                     System.out.println("error " + ex);
                 }
             } else {
@@ -902,7 +906,11 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             int fila2 = pr.tblListaHospedaje.getSelectedRow();
             id_hospedajeU = (int) pr.tblListaHospedaje.getValueAt(fila2, 1);
             detalleFacturaItems.clear();
-            limpiarFactura();
+            try {
+                limpiarFactura();
+            } catch (JSONException | ParseException ex) {
+                System.out.println("error " + ex);
+            }
             facturarHospedaje();
         }
 
@@ -1213,7 +1221,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                         pr.txtIdFactura.setText("");
                         pr.cldFechaIni.setDate(null);
                         pr.cldFechaFin.setDate(null);
-                    } catch (SQLException ex) {
+                    } catch (SQLException | JSONException | ParseException ex) {
                         System.out.println("error " + ex);
                     }
                     break;
@@ -1290,11 +1298,19 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 JOptionPane.showMessageDialog(null, "¡El valor ingresado no debe ser mayor al valor a pagar!");
             } else {
                 if (gp.txtIsHospedaje.getText().equals("")) {
-                    addPay(false, 0, 0);
+                    try {
+                        addPay(false, 0, 0);
+                    } catch (JSONException | ParseException ex) {
+                        System.out.println("error " + ex);
+                    }
                 } else {
                     int idHospedaje1 = Integer.parseInt(gp.txtIsHospedaje.getText());
                     int idCliente1 = Integer.parseInt(gp.txtIsCliente.getText());
-                    addPay(true, idCliente1, idHospedaje1);
+                    try {
+                        addPay(true, idCliente1, idHospedaje1);
+                    } catch (JSONException | ParseException ex) {
+                        System.out.println("error " + ex);
+                    }
                 }
             }
         }
@@ -1389,7 +1405,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                     cc.txtNuevaClave2.requestFocus();
                     return;
                 }
-                if (Utils.Utils.actualizarClave(Principal.idUsuarioLog.getText(), Arrays.toString(cc.txtNuevaClave.getPassword()))) {                    
+                if (Utils.Utils.actualizarClave(Principal.idUsuarioLog.getText(), Arrays.toString(cc.txtNuevaClave.getPassword()))) {
                     Object[] campos2 = {cc.txtClaveActual, cc.txtNuevaClave, cc.txtNuevaClave2};
                     cleanCampos(campos2);
                     cc.dispose();
@@ -1553,10 +1569,16 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             pr.pbtnGeneratePago.setVisible(true);
             pr.pbtnAnulateFactura.setVisible(true);
             detalleFacturaItems.clear();
-            limpiarFactura();
             try {
+                limpiarFactura();
+            } catch (JSONException | ParseException ex) {
+                System.out.println("error " + ex);
+            }
+            try {
+
+                System.out.println("generando factura");
                 cargarTablaFactura("", true);
-            } catch (SQLException ex) {
+            } catch (SQLException | JSONException | ParseException ex) {
                 System.out.println("error " + ex);
             }
             if (!newFactura("factura")) {
@@ -1578,10 +1600,10 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             pr.pbtnAnulateFactura.setVisible(false);
             optNewFactura = "cotizaciones";
             detalleFacturaItems.clear();
-            limpiarFactura();
             try {
+                limpiarFactura();
                 cargarTablaFactura("", false);
-            } catch (SQLException ex) {
+            } catch (SQLException | JSONException | ParseException ex) {
                 System.out.println("error  " + ex);
             }
             if (!newFactura("cotizaciones")) {
@@ -1596,7 +1618,11 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 pr.btnOlySave.setEnabled(true);
             }
             detalleFacturaItems.clear();
-            limpiarFactura();
+            try {
+                limpiarFactura();
+            } catch (JSONException | ParseException ex) {
+                System.out.println("error " + ex);
+            }
             if (!newFactura(optNewFactura)) {
                 ocultarPaneles("btnNewFactura");
             }
@@ -1799,6 +1825,8 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 // 4 borrador
             } catch (SQLException | JRException ex) {//
                 System.out.println("error btnPreview" + ex);
+            } catch (JSONException | ParseException ex) {
+                Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -1807,6 +1835,8 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 getDatosFactura(1, "btnSaveAddPay");
             } catch (SQLException | JRException ex) {
                 System.out.println("error btnSaveAddPay" + ex);
+            } catch (JSONException | ParseException ex) {
+                Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         if (e.getSource() == pr.btnSaveAndNew) {
@@ -1814,6 +1844,8 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 getDatosFactura(1, "btnSaveAndNew");
             } catch (SQLException | JRException ex) {
                 System.out.println("error btnSaveAndNew" + ex);
+            } catch (JSONException | ParseException ex) {
+                Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         if (e.getSource() == pr.btnOlySave) {
@@ -1821,6 +1853,8 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 getDatosFactura(1, "btnOlySave");
             } catch (SQLException | JRException ex) {
                 System.out.println("error btnOlySave" + ex);
+            } catch (JSONException | ParseException ex) {
+                Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -1829,6 +1863,8 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 getDatosFactura(6, "btnCotizar");
             } catch (SQLException | JRException ex) {
                 System.out.println("error btnSaveAddPay" + ex);
+            } catch (JSONException | ParseException ex) {
+                Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -1877,7 +1913,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 } else {
                     cargarTablaFactura(sql, false);
                 }
-            } catch (SQLException ex) {
+            } catch (SQLException | JSONException | ParseException ex) {
                 System.out.println("error btnSaveAddPay" + ex);
             }
         }
@@ -1968,7 +2004,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             } else {
                 try {
                     anularFactura(af.idfactura.getText(), af.taConcepto.getText());
-                } catch (SQLException ex) {
+                } catch (SQLException | JSONException | ParseException ex) {
                     System.out.println("error " + ex);
                 }
             }
@@ -2472,7 +2508,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         this.factura = factura;
     }
 
-    private void getDatosFactura(int estadoFactura, String btnAction) throws SQLException, JRException {
+    private void getDatosFactura(int estadoFactura, String btnAction) throws SQLException, JRException, JSONException, ParseException {
         String cliente = (String) Principal.lblCliente.getSelectedItem();
         String[] identificacionCliente = cliente.split(" ");
         String consecutivoFactura = pr.txtConsecutivoFactura.getText();
@@ -2678,7 +2714,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         pr.txtDescuento.setText("");
     }
 
-    private void saveFactura(int partialPay, boolean isHospedaje, int id_hospedajeU) {
+    private void saveFactura(int partialPay, boolean isHospedaje, int id_hospedajeU) throws JSONException, ParseException {
 
         Object[] numeros = {gp.txtValor, gp.txtCuatroDigitos};
         SLetra(numeros, false);
@@ -3035,7 +3071,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
     }
 
-    private void addPay(boolean hospedaje, int cliente, int idH) {
+    private void addPay(boolean hospedaje, int cliente, int idH) throws JSONException, ParseException {
         Object[] campos = null;
         String tipopago = (String) gp.cboTipoPago.getSelectedItem();
         String franquicia = (String) gp.txtBancos.getSelectedItem();
@@ -3235,7 +3271,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
     }
 
-    public void cargarTablaFactura(String dato, boolean isfactura) throws SQLException {
+    public void cargarTablaFactura(String dato, boolean isfactura) throws SQLException, JSONException, ParseException {
         facturaDao = new FacturasDAO();
         String Factura = "Id Cotización";
         if (isfactura) {
@@ -3463,7 +3499,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
     }
 
-    private void limpiarFactura() {
+    private void limpiarFactura() throws JSONException, ParseException {
         Object[] campos2 = {pr.cboTerminoDePago, pr.clVencimientomanual, Principal.lblCliente,
             pr.txtNota, pr.cboProductoServ, pr.txtCostoServicio, pr.cboImpuesto, pr.spCantidad2,
             pr.txtDescuento, pr.lblSubtotal, pr.lblDescuentoTotal, pr.lblTotalImpuesto, pr.lbltotalFactura};
@@ -3701,7 +3737,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
     }
 
-    private void anularFactura(String idfactura, String concepto) throws SQLException {
+    private void anularFactura(String idfactura, String concepto) throws SQLException, JSONException, ParseException {
         if (Utils.Utils.anularfacturas(idfactura)) {
             facturaDao = new FacturasDAO();
             if (facturaDao.anularFacturas(idfactura, concepto, Principal.idUsuarioLog.getText(), Principal.idVendedor.getText())) {

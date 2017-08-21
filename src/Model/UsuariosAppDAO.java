@@ -31,7 +31,7 @@ public class UsuariosAppDAO {
     //Listar 
     public UsuariosApp getUsuariosApp(String usuario, String Password) throws SQLException, JSONException {
         UsuariosApp user = null;
-        String[] json = ws.ws.obtener("LOGIN", usuario, Password, "");
+        String[] json = ws.ws.obtener("LOGIN", usuario, Password, "","");
         for (String string : json) {
             JSONObject obj = new JSONObject(string);
             user = new UsuariosApp((String) obj.get("id_usuario"),
@@ -46,7 +46,7 @@ public class UsuariosAppDAO {
     //Listar 
     public List<UsuariosApp> getUsuariosAppList() throws SQLException, JSONException {
         List<UsuariosApp> list = new ArrayList<>();
-        String[] json = ws.ws.obtener("SP", "", "", "");
+        String[] json = ws.ws.obtener("SP", "", "", "","");
         for (String string : json) {
             JSONObject obj = new JSONObject(string);
             UsuariosApp ua = new UsuariosApp((String) obj.get("id_usuario"), Integer.parseInt((String) obj.get("id_tipo_identificacion")),
