@@ -10,10 +10,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import us.monoid.json.JSONException;
+import us.monoid.json.JSONObject;
 
 /**
  *
@@ -31,29 +34,27 @@ public class FacturasDAO {
     DetalleFacturaCotizacionDAO detallefactraDao;
 
     //Listar 
-    public List<Facturas> getFacturasList(String idEmpresa) throws SQLException {
-        List<Facturas> list = new ArrayList<>();        
-        try {
-            sql = "{call listarFactura(?)}";
-            clstm = cn.prepareCall(sql);
-            clstm.setString(1, idEmpresa);
-            rs = clstm.executeQuery();
-            while (rs.next()) {
-                Facturas f = new Facturas(rs.getString(1), rs.getDate(2), rs.getString(3), rs.getInt(4), rs.getFloat(5), rs.getFloat(6), rs.getFloat(7),
-                        rs.getInt(8), rs.getString(9), rs.getString(10), rs.getInt(11), rs.getDate(12),
-                        rs.getString(13), rs.getString(14));
-                list.add(f);
-            }
-        } catch (SQLException e) {
-            System.out.println("error " + e);
-        } 
+    public List<Facturas> getFacturasList(String idEmpresa) throws SQLException, JSONException, ParseException {
+        List<Facturas> list = new ArrayList<>();
+        String[] json = ws.ws.obtener("SP", "", "", idEmpresa, "listarFactura");
+        for (String string : json) {
+            JSONObject obj = new JSONObject(string);
+            
+            Facturas f = new Facturas((String) obj.get("id_factura"), df.parse((String) obj.get("fecha")), (String) obj.get("id_resolucion"),
+                    Integer.parseInt((String) obj.get("id_cliente")), Float.parseFloat((String) obj.get("subtotal")),
+                    Float.parseFloat((String) obj.get("iva")), Float.parseFloat((String) obj.get("total")),
+                    Integer.parseInt((String) obj.get("id_estado_factura")), (String) obj.get("id_empresa"),
+                    (String) obj.get("id_usuario"), Integer.parseInt((String) obj.get("id_termino_pago")), df.parse((String) obj.get("vencimiento")),
+                    (String) obj.get("nota"), (String) obj.get("transacion"));
+            list.add(f);
+            
+        }
         return list;
     }
-    
-    
-      //Listar 
+
+    //Listar 
     public List<Facturas> getCotizacionesList(String idEmpresa) throws SQLException {
-        List<Facturas> list = new ArrayList<>();        
+        List<Facturas> list = new ArrayList<>();
         try {
             sql = "{call listarCotizacion(?)}";
             clstm = cn.prepareCall(sql);
@@ -67,7 +68,7 @@ public class FacturasDAO {
             }
         } catch (SQLException e) {
             System.out.println("error " + e);
-        } 
+        }
         return list;
     }
 
@@ -78,7 +79,7 @@ public class FacturasDAO {
 //        System.out.println("" + id_factura + " " + fecha + " " + id_resolucion + " " + id_comprador + "  " + subtotal + " " + iva + " " + total
 //                + " " + id_estado_factura + " " + id_vendedor + " " + id_usuario + "" + id_terminos_pago + " "
 //                + " " + vencimiento + " " + nota + " " + transacion + " " + opc);
-        boolean creado = false;        
+        boolean creado = false;
         try {
             cn.setAutoCommit(false);
             if (opc.equals("create")) {
@@ -132,7 +133,7 @@ public class FacturasDAO {
 
     //Eliminar 
     public boolean eliminarFactura(String id_factura) throws SQLException {
-        boolean creado = false;        
+        boolean creado = false;
         try {
             cn.setAutoCommit(false);
             sql = "{call eliminarFactura(?)}";
@@ -149,18 +150,17 @@ public class FacturasDAO {
             cn.commit();
         } catch (SQLException e) {
             System.out.println("error " + e);
-        } 
+        }
         return creado;
     }
-    
-    
+
     //Eliminar 
     public boolean anularFacturas(String idfactura, String concepto, String Userlog, String idEmpresa) throws SQLException {
-        boolean creado = false;        
+        boolean creado = false;
         try {
             cn.setAutoCommit(false);
             sql = "{call anularFactura(?,?,?,?,?)}";
-            clstm = cn.prepareCall(sql);          
+            clstm = cn.prepareCall(sql);
             clstm.setString(1, idfactura);
             clstm.setString(2, concepto);
             clstm.setString(3, Userlog);
@@ -176,7 +176,7 @@ public class FacturasDAO {
             cn.commit();
         } catch (SQLException e) {
             System.out.println("error " + e);
-        } 
+        }
         return creado;
     }
 

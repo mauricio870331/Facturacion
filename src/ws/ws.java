@@ -20,7 +20,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import us.monoid.json.JSONException;
-import us.monoid.json.JSONObject;
 
 /**
  *
@@ -28,27 +27,31 @@ import us.monoid.json.JSONObject;
  */
 public class ws {
 
-    public static String[] obtener(String OPC, String user, String pass, String valor) throws JSONException {
+    public static String[] obtener(String OPC, String user, String pass, String valor, String nameSP) throws JSONException {
         DefaultHttpClient httpclient = new DefaultHttpClient();
         String m = null;
         String[] json = null;
         HttpGet getRequest = null;
         try {
             // specify the host, protocol, and port
-            HttpHost target = new HttpHost("localhost", 80, "http");
+            HttpHost target = new HttpHost("ws.codigoinnova.com", 80, "http");
             // specify the get request
-
+            System.out.println("opc = " + OPC);
             switch (OPC) {
                 case "SP":
-                    getRequest = procedure("listarUsuarioApp");
+                    getRequest = new HttpGet("/ws.php?tabla=SP&SP=" + nameSP + "&valor=" + valor + "");
                     break;
 
                 case "LOGIN":
-                    getRequest = new HttpGet("/SampleWS/ws.php?tabla=&id_usuario=" + user + "&password=" + pass + "");
+                    getRequest = new HttpGet("/ws.php?tabla=&id_usuario=" + user + "&password=" + pass + "");
                     break;
 
                 case "CIUDADES":
-                    getRequest = new HttpGet("/SampleWS/ws.php?tabla=ciudades&campo=" + user + "&consulta=" + pass + "&valor= " + valor);
+                    getRequest = new HttpGet("/WS/ws.php?tabla=ciudades&campo=" + user + "&consulta=" + pass + "&valor= " + valor);
+                    break;
+
+                case "FACTURAS":
+                    getRequest = new HttpGet("/ws.php?tabla=ciudades&campo=" + user + "&consulta=" + pass + "&valor= " + valor);
                     break;
 
             }
@@ -65,7 +68,7 @@ public class ws {
 
             if (entity != null) {
                 m = EntityUtils.toString(entity);
-
+                System.out.println("m = " + m + "sp = " + nameSP + " id_empresa = " + valor);
                 json = m.replace("[", "").replace("]", "").replace("},{", "}space{").split("space");
             }
         } catch (IOException | ParseException e) {
@@ -193,13 +196,4 @@ public class ws {
         return json;
     }
 
-    private static HttpGet procedure(String SP) {
-        HttpGet getRequest = null;
-        switch (SP) {
-            case "listarUsuarioApp":
-                getRequest = new HttpGet("/SampleWS/ws.php?tabla=SP&SP=listarUsuarioApp");
-                break;
-        }
-        return getRequest;
-    }
 }

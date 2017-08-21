@@ -78,7 +78,7 @@ public class Utils {
     public static int getIdCiudad(String Parms) throws SQLException {
         int id_ciu = 0;
         try {
-            String[] json = ws.ws.obtener("CIUDADES", "nombre", "getIdCiudad",Parms);
+            String[] json = ws.ws.obtener("CIUDADES", "nombre", "getIdCiudad",Parms,"");
             for (String string : json) {
                 JSONObject obj = new JSONObject(string);
                 id_ciu = Integer.parseInt((String) obj.get("id_ciudad"));
