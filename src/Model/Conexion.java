@@ -13,7 +13,7 @@ public class Conexion {
         try {
             if (con == null) {
                 String url = "jdbc:mysql://localhost/codigo_pymesapp?autoReconnect=true";
-                String pwd = "";
+                String pwd = "PpY8lfp838Et3716";
                 String usr = "root";
 //                if (TipoCon.equals("remota")) {
 //                String url = "jdbc:mysql://190.8.176.243:3306/codigo_pymesapp?noAccessToProcedureBodies=true&autoReconnect=true";

@@ -40,7 +40,7 @@ public class FacturasDAO {
         for (String string : json) {
             JSONObject obj = new JSONObject(string);
             
-            Facturas f = new Facturas((String) obj.get("id_factura"), df.parse((String) obj.get("fecha")), (String) obj.get("id_resolucion"),
+            Facturas f = new Facturas((String) obj.get("id_factura"), sd.parse(obj.get("fecha").toString()), (String) obj.get("id_resolucion"),
                     Integer.parseInt((String) obj.get("id_cliente")), Float.parseFloat((String) obj.get("subtotal")),
                     Float.parseFloat((String) obj.get("iva")), Float.parseFloat((String) obj.get("total")),
                     Integer.parseInt((String) obj.get("id_estado_factura")), (String) obj.get("id_empresa"),
