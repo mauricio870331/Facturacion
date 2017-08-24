@@ -3309,8 +3309,8 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             columna[1] = formateador.format(f.getTotal());
             columna[2] = formateador.format(Utils.Utils.getRetencionesByFactura(f.getIdFactura()));
             columna[3] = formateador.format(Utils.Utils.getAbonos(f.getIdFactura(), 0));
-            columna[4] = f.getFecha();
-            columna[5] = f.getVencimiento();
+            columna[4] = sa.format(f.getFecha());
+            columna[5] = df.format(f.getVencimiento());
             columna[6] = formateador.format(saldo);
             columna[7] = Utils.Utils.getEstadoById(f.getEstado().getIdEstadoFactura());
             modelo.addRow(columna);

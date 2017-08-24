@@ -26,7 +26,7 @@ import us.monoid.json.JSONException;
  * @author clopez
  */
 public class ws {
-
+    
     public static String[] obtener(String OPC, String user, String pass, String valor, String nameSP) throws JSONException {
         DefaultHttpClient httpclient = new DefaultHttpClient();
         String m = null;
@@ -34,45 +34,53 @@ public class ws {
         HttpGet getRequest = null;
         try {
             // specify the host, protocol, and port
-            HttpHost target = new HttpHost("ws.codigoinnova.com", 80, "http");
-            // specify the get request
+            
+//             HttpHost target = new HttpHost("ws.codigoinnova.com", 80, "http");  online
+            
+            HttpHost target = new HttpHost("192.168.10.200", 9991, "http");   //pruebas        
+             
+            
             System.out.println("opc = " + OPC);
             switch (OPC) {
                 case "SP":
-                    getRequest = new HttpGet("/ws.php?tabla=SP&SP=" + nameSP + "&valor=" + valor + "");
+                    getRequest = new HttpGet("/WS/ws.php?tabla=SP&SP=" + nameSP + "&valor=" + valor + "");
                     break;
-
+                
                 case "LOGIN":
-                    getRequest = new HttpGet("/ws.php?tabla=&id_usuario=" + user + "&password=" + pass + "");
+                    getRequest = new HttpGet("/WS/ws.php?tabla=&id_usuario=" + user + "&password=" + pass + "");
                     break;
-
+                
                 case "CIUDADES":
                     getRequest = new HttpGet("/WS/ws.php?tabla=ciudades&campo=" + user + "&consulta=" + pass + "&valor= " + valor);
                     break;
-
+                
                 case "FACTURAS":
                     getRequest = new HttpGet("/ws.php?tabla=ciudades&campo=" + user + "&consulta=" + pass + "&valor= " + valor);
                     break;
-
+                
             }
             System.out.println("executing request to " + target);//http://localhost/dashboard/
 
             HttpResponse httpResponse = httpclient.execute(target, getRequest);
             HttpEntity entity = httpResponse.getEntity();
-
+            
             System.out.println(httpResponse.getStatusLine());
             Header[] headers = httpResponse.getAllHeaders();
             for (Header header : headers) {
                 System.out.println(header);
             }
-
+            
             if (entity != null) {
                 m = EntityUtils.toString(entity);
-                System.out.println("m = " + m + "sp = " + nameSP + " id_empresa = " + valor);
+                
+                    System.out.println("m = " + m + "sp = " + nameSP + " id_empresa = " + valor);
+                
+                
                 json = m.replace("[", "").replace("]", "").replace("},{", "}space{").split("space");
+                
             }
         } catch (IOException | ParseException e) {
-            System.out.println("error " + e);
+            System.out.println("error *-*-*-" + e);
         } finally {
             // When HttpClient instance is no longer needed,
             // shut down the connection manager to ensure
@@ -81,7 +89,7 @@ public class ws {
         }
         return json;
     }
-
+    
     public static void update() throws UnsupportedEncodingException {
         /* Create object of CloseableHttpClient */
         DefaultHttpClient httpclient = new DefaultHttpClient();
@@ -100,10 +108,10 @@ public class ws {
             // specify the host, protocol, and port               // specify the get request
 
             System.out.println("executing request to " + target);
-
+            
             HttpResponse httpResponse = httpclient.execute(target, httpPut);
             HttpEntity entity = httpResponse.getEntity();
-
+            
             System.out.println("----------------------------------------");
             System.out.println(httpResponse.getStatusLine());
             Header[] headers = httpResponse.getAllHeaders();
@@ -111,11 +119,11 @@ public class ws {
                 System.out.println(header);
             }
             System.out.println("----------------------------------------");
-
+            
             if (entity != null) {
                 System.out.println(EntityUtils.toString(entity));
             }
-
+            
         } catch (IOException | ParseException e) {
             System.out.println("error " + e);
         } finally {
@@ -125,7 +133,7 @@ public class ws {
             httpclient.getConnectionManager().shutdown();
         }
     }
-
+    
     public static String[] create(Object obj, String SP) throws UnsupportedEncodingException {
         System.out.println("mas datos" + SP);
         StringEntity jsonData = null;
@@ -137,7 +145,7 @@ public class ws {
         try {
             HttpHost target = new HttpHost("localhost", 80, "http");
             /* Prepare put request */
-
+            
             HttpPost httpPost = new HttpPost("/SampleWS/ws.php?tabla=SP&SP=" + SP);
 
             /* Add headers to get request */
@@ -184,7 +192,7 @@ public class ws {
                 m = EntityUtils.toString(entity);
                 json = m.replace("[", "").replace("]", "").replace("},{", "}space{").split("space");
             }
-
+            
         } catch (IOException | ParseException e) {
             System.out.println("error " + e);
         } finally {
@@ -195,5 +203,5 @@ public class ws {
         }
         return json;
     }
-
+    
 }
