@@ -78,7 +78,7 @@ public class Utils {
     public static int getIdCiudad(String Parms) throws SQLException {
         int id_ciu = 0;
         try {
-            String[] json = ws.ws.obtener("CIUDADES", "nombre", "getIdCiudad",Parms,"");
+            String[] json = ws.ws.obtener("CIUDADES", "nombre", "getIdCiudad", Parms, "");
             for (String string : json) {
                 JSONObject obj = new JSONObject(string);
                 id_ciu = Integer.parseInt((String) obj.get("id_ciudad"));
@@ -687,7 +687,7 @@ public class Utils {
         return retenciones;
     }
 
-    public static float getAbonos(String idFactura, int idHospedaje) throws SQLException {
+    public static float getAbonos(String idFactura, int idHospedaje) throws SQLException, JSONException {
         float abonos = 0;
         String and = "";
         if (idHospedaje > 0) {
@@ -695,17 +695,24 @@ public class Utils {
         } else {
             and = " where id_factura = '" + idFactura + "'";
         }
-        try {
-            sql = "select SUM(valor) from pagos " + and + "";
-            pstm = cn.prepareStatement(sql);
-            rs = pstm.executeQuery();
-            if (rs.next()) {
-                abonos = rs.getFloat(1);
-            }
-        } catch (SQLException e) {
-            System.out.println("error " + e);
-        }
+        sql = "select SUM(valor) as valor from pagos " + and + "";
+        System.out.println("sql " + convertSqlToURI(sql));
+//        String[] json = ws.ws.obtener("QUERY", "", "", "", convertSqlToURI(sql));
+//        System.out.println("json "+json[0]);
+        
+//            JSONObject obj2 = new JSONObject(json);
+//            abonos = Float.parseFloat(obj2.get("valor").toString());
+//            System.out.println("abonos = " + abonos);
+       
+
         return abonos;
+
+    }
+
+    public static String convertSqlToURI(String sql) {
+        String queryConvert = sql.replace(" ", "space");
+
+        return queryConvert;
     }
 
     public static float getDescuentos(String idFactura) throws SQLException {
@@ -846,7 +853,7 @@ public class Utils {
             while (rs.next()) {
                 Facturas f = new Facturas(rs.getString(1), rs.getDate(2), rs.getString(3), rs.getInt(4), rs.getFloat(5), rs.getFloat(6), rs.getFloat(7),
                         rs.getInt(8), rs.getString(9), rs.getString(10), rs.getInt(11), rs.getDate(12),
-                        rs.getString(13), rs.getString(14));
+                        rs.getString(13), rs.getString(14), rs.getFloat(15), rs.getFloat(16));
                 list.add(f);
             }
 

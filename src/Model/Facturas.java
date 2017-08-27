@@ -30,6 +30,8 @@ public class Facturas {
     private String transacion;
     private int terminosdepago;
     private float descuentoTotal;
+    private float abonos;
+    private float retenciones;
 
     public Facturas() {
 
@@ -200,7 +202,7 @@ public class Facturas {
             int validezDias,
             Date vencimiento,
             String nota,
-            String transacion) {
+            String transacion, float abonos, float retenciones) {
         this.idFactura = idFactura;
         this.fecha = fecha;
         this.resolucion = getResolucion();
@@ -221,9 +223,10 @@ public class Facturas {
         this.vencimiento = vencimiento;
         this.nota = nota;
         this.transacion = transacion;
+        this.abonos = abonos;
+        this.retenciones = retenciones;
     }
-    
-    
+
     public Facturas(String idFactura,
             Date fecha,
             String idResolucion,
@@ -266,6 +269,20 @@ public class Facturas {
         return "Facturas{" + "idFactura=" + idFactura + ", fecha=" + fecha + ", resolucion=" + resolucion + ", comprador=" + comprador + ", subtotal=" + subtotal + ", iva=" + iva + ", total=" + total + ", estado=" + estado + ", vendedor=" + vendedor + ", usuario=" + usuario + ", validezDias=" + validezDias + ", plazo=" + plazo + ", vencimiento=" + vencimiento + ", nota=" + nota + ", transacion=" + transacion + ", terminosdepago=" + terminosdepago + ", descuentoTotal=" + descuentoTotal + '}';
     }
 
-    
-    
+    public float getAbonos() {
+        return abonos;
+    }
+
+    public void setAbonos(float abonos) {
+        this.abonos = abonos;
+    }
+
+    public float getRetenciones() {
+        return retenciones;
+    }
+
+    public void setRetenciones(float retenciones) {
+        this.retenciones = retenciones;
+    }
+
 }

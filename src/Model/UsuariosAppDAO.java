@@ -31,6 +31,10 @@ public class UsuariosAppDAO {
     public UsuariosApp getUsuariosApp(String usuario, String Password) throws SQLException, JSONException {
         UsuariosApp user = null;
         String[] json = ws.ws.obtener("SP", "", "", usuario + "," + Password, "existUser");
+
+//        JSONObject obj2 = new JSONObject(json);
+//        System.out.println("obj2.get(\"error\")" + obj2.get("error"));
+
         if (!json[0].contains("error")) {
             for (String string : json) {
                 JSONObject obj = new JSONObject(string);
