@@ -198,7 +198,7 @@ public final class LoginController implements ActionListener {
                     JOptionPane.showMessageDialog(null, "¡Usuario o clave no validos!");
                 }
             } catch (SQLException | JSONException ex) {
-                System.out.println("error " + ex);
+                System.out.println("error aqui" + ex);
             }
         }
         if (e.getSource() == ch.btnNext) {

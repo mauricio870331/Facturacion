@@ -27,19 +27,21 @@ import us.monoid.json.JSONException;
  */
 public class ws {
 
-    public static String[] obtener(String OPC, String user, String pass, String valor, String nameSP) throws JSONException {
+    public static String[] obtener(String OPC, String user, String pass, String valor, String SQL) throws JSONException {
         DefaultHttpClient httpclient = new DefaultHttpClient();
         String m = null;
         String[] json = null;
         HttpGet getRequest = null;
         try {
             // specify the host, protocol, and port
-            HttpHost target = new HttpHost("ws.codigoinnova.com", 80, "http");
-            // specify the get request
+
+            HttpHost target = new HttpHost("ws.codigoinnova.com", 80, "http");  //online
+
+//            HttpHost target = new HttpHost("192.168.10.200", 9991, "http");   //pruebas        
             System.out.println("opc = " + OPC);
             switch (OPC) {
                 case "SP":
-                    getRequest = new HttpGet("/ws.php?tabla=SP&SP=" + nameSP + "&valor=" + valor + "");
+                    getRequest = new HttpGet("/ws.php?QuerySP=SP&SP=" + SQL + "&valor=" + valor + "");
                     break;
 
                 case "LOGIN":
@@ -47,11 +49,11 @@ public class ws {
                     break;
 
                 case "CIUDADES":
-                    getRequest = new HttpGet("/WS/ws.php?tabla=ciudades&campo=" + user + "&consulta=" + pass + "&valor= " + valor);
+                    getRequest = new HttpGet("/ws.php?tabla=ciudades&campo=" + user + "&consulta=" + pass + "&valor= " + valor);
                     break;
 
-                case "FACTURAS":
-                    getRequest = new HttpGet("/ws.php?tabla=ciudades&campo=" + user + "&consulta=" + pass + "&valor= " + valor);
+                case "QUERY":
+                    getRequest = new HttpGet("/ws.php?QuerySP=QUERY&SP=" + SQL);
                     break;
 
             }
@@ -62,17 +64,26 @@ public class ws {
 
             System.out.println(httpResponse.getStatusLine());
             Header[] headers = httpResponse.getAllHeaders();
-            for (Header header : headers) {
-                System.out.println(header);
-            }
+//            for (Header header : headers) {
+//                System.out.println(header);
+//            }
 
+//             System.out.println("m = " + m + "sp = " + nameSP + " id_empresa = " + valor);
             if (entity != null) {
                 m = EntityUtils.toString(entity);
-                System.out.println("m = " + m + "sp = " + nameSP + " id_empresa = " + valor);
+
+                System.out.println("m = " + m + "sp = " + SQL + " id_empresa = " + valor);
+
                 json = m.replace("[", "").replace("]", "").replace("},{", "}space{").split("space");
+
             }
+            
+//            for (int i = 0; i < json.length; i++) {
+//                System.out.println("array "+json[i]);
+//                
+//            }
         } catch (IOException | ParseException e) {
-            System.out.println("error " + e);
+            System.out.println("error *-*-*-" + e);
         } finally {
             // When HttpClient instance is no longer needed,
             // shut down the connection manager to ensure

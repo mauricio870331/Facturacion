@@ -40,12 +40,12 @@ public class FacturasDAO {
         for (String string : json) {
             JSONObject obj = new JSONObject(string);
             
-            Facturas f = new Facturas((String) obj.get("id_factura"), df.parse((String) obj.get("fecha")), (String) obj.get("id_resolucion"),
+            Facturas f = new Facturas((String) obj.get("id_factura"), sd.parse(obj.get("fecha").toString()), (String) obj.get("id_resolucion"),
                     Integer.parseInt((String) obj.get("id_cliente")), Float.parseFloat((String) obj.get("subtotal")),
                     Float.parseFloat((String) obj.get("iva")), Float.parseFloat((String) obj.get("total")),
                     Integer.parseInt((String) obj.get("id_estado_factura")), (String) obj.get("id_empresa"),
                     (String) obj.get("id_usuario"), Integer.parseInt((String) obj.get("id_termino_pago")), df.parse((String) obj.get("vencimiento")),
-                    (String) obj.get("nota"), (String) obj.get("transacion"));
+                    (String) obj.get("nota"), (String) obj.get("transacion"), Float.parseFloat((String) obj.get("abonos")), Float.parseFloat((String) obj.get("retenciones")));
             list.add(f);
             
         }
@@ -63,7 +63,7 @@ public class FacturasDAO {
             while (rs.next()) {
                 Facturas f = new Facturas(rs.getString(1), rs.getDate(2), rs.getString(3), rs.getInt(4), rs.getFloat(5), rs.getFloat(6), rs.getFloat(7),
                         rs.getInt(8), rs.getString(9), rs.getString(10), rs.getInt(11), rs.getDate(12),
-                        rs.getString(13), rs.getString(14));
+                        rs.getString(13), rs.getString(14), rs.getFloat(15), rs.getFloat(16));
                 list.add(f);
             }
         } catch (SQLException e) {
