@@ -1121,7 +1121,7 @@ public final class Principal extends javax.swing.JFrame {
         );
 
         jLayeredPane1.setLayer(pnInicio, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(pnListFacturas, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(pnListFacturas, javax.swing.JLayeredPane.PALETTE_LAYER);
         jLayeredPane1.setLayer(pnHospedaje, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(pnFacturas, javax.swing.JLayeredPane.PALETTE_LAYER);
         jLayeredPane1.setLayer(pnListClientes, javax.swing.JLayeredPane.DEFAULT_LAYER);

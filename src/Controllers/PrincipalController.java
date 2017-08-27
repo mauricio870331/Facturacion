@@ -436,7 +436,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                             JOptionPane.showMessageDialog(null, "¡Eliminación no permitida!");
                         }
                     } catch (SQLException ex) {
-                        System.out.println("error " + ex);
+                        System.out.println("error linea 439" + ex);
                     }
                 } else {
                 }
@@ -462,7 +462,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             try {
                 cargarUsuarios("clientes", and);
             } catch (SQLException ex) {
-                System.out.println("error " + ex);
+                System.out.println("error linea 465" + ex);
             }
         }
 
@@ -512,7 +512,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                     pg.dispose();
                     Utils.Utils.generateReciboCaja(Integer.parseInt(pg.tblPagosRealizados.getValueAt(fila, 0).toString()), Principal.idVendedor.getText(), "", "COPIA");
                 } catch (SQLException | JRException ex) {
-                    System.out.println("error " + ex);
+                    System.out.println("error linea 514" + ex);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "¡Debes seleccionar un registro!");
@@ -523,7 +523,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             try {
                 limpiarFactura();
             } catch (JSONException | ParseException ex) {
-                System.out.println("error " + ex);
+                System.out.println("error linea 526" + ex);
             }
             isHospedaje = false;
             id_hospedajeU = 0;
@@ -534,14 +534,14 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 try {
                     cargarTablaFactura("", true);
                 } catch (SQLException | ParseException | JSONException ex) {
-                    System.out.println("error " + ex);
+                    System.out.println("error linea 536" + ex);
                 }
             } else {
                 ocultarPaneles("mnuFacturacion");
                 try {
                     cargarTablaFactura("", false);
                 } catch (Exception ex) {
-                    System.out.println("error " + ex);
+                    System.out.println("error linea 542" + ex);
                 }
             }
         }
@@ -563,7 +563,9 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                             gp.setLocationRelativeTo(null);
                             gp.setVisible(true);
                         } catch (SQLException ex) {
-                            System.out.println("error " + ex);
+                            System.out.println("error linea 566" + ex);
+                        } catch (JSONException ex) {
+                            Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     } else {
                         try {
@@ -588,11 +590,13 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                             gp.setLocationRelativeTo(null);
                             gp.setVisible(true);
                         } catch (ParseException ex) {
-                            System.out.println("error " + ex);
+                            System.out.println("error linea 593" + ex);
+                        } catch (JSONException ex) {
+                            Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 } catch (SQLException ex) {
-                    System.out.println("error " + ex);
+                    System.out.println("error linea 599" + ex);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "¡Debe seleccionar un registro!");
@@ -641,7 +645,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 mrf.txtIdCliente.setText("");
                 mrf.dispose();
             } catch (SQLException | JRException ex) {
-                System.out.println("error " + ex);
+                System.out.println("error 647" + ex);
             }
         }
 
@@ -670,7 +674,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 ri.cldFechafin.setDate(null);
                 ri.dispose();
             } catch (SQLException | JRException ex) {
-                System.out.println("error " + ex);
+                System.out.println("error 676" + ex);
             }
         }
 
@@ -938,7 +942,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                                             JOptionPane.showMessageDialog(null, "¡Error con la disponibilidad de la habitación!");
                                         }
                                     } catch (SQLException ex) {
-                                        System.out.println("error " + ex);
+                                        System.out.println("error linea 945" + ex);
                                     }
                                 }
                             } else {
@@ -950,7 +954,9 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                         JOptionPane.showMessageDialog(null, "¡No se puede cancelar un hospedaje con pagos asociados!");
                     }
                 } catch (SQLException ex) {
-                    System.out.println("error " + ex);
+                    System.out.println("error linea 957" + ex);
+                } catch (JSONException ex) {
+                    Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             } else {
@@ -2100,6 +2106,8 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                                 }
                             } catch (SQLException ex) {
                                 System.out.println("error line 1037" + ex);
+                            } catch (JSONException ex) {
+                                Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         } else {
                             JOptionPane.showMessageDialog(null, "¡Descuento no permitido!");
@@ -2780,7 +2788,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                         JOptionPane.showMessageDialog(null, "¡Ocurrió un error al crear la factura!");
                     }
                 } catch (SQLException e) {
-                    System.out.println("error " + e);
+                    System.out.println("error linea 2791" + e);
                 }
                 break;
             case 1:
@@ -2841,7 +2849,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                         JOptionPane.showMessageDialog(null, "¡Ocurrió un error al crear la factura!");
                     }
                 } catch (SQLException ex) {
-                    System.out.println("error " + ex);
+                    System.out.println("error linea 2852" + ex);
                 }
                 break;
             case 2:
@@ -2902,7 +2910,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                         JOptionPane.showMessageDialog(null, "¡Ocurrió un error al crear la factura!");
                     }
                 } catch (SQLException ex) {
-                    System.out.println("error " + ex);
+                    System.out.println("error linea 2913" + ex);
                 }
                 break;
             case 3:
@@ -3303,12 +3311,12 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             Facturas f = nombreIterator.next();
             float saldo = (float) 0;
             if (isfactura) {
-                saldo = f.getTotal() - (Utils.Utils.getAbonos(f.getIdFactura(), 0) + Utils.Utils.getRetencionesByFactura(f.getIdFactura()));
+                saldo = f.getTotal() - (f.getAbonos() + f.getRetenciones());
             }
             columna[0] = f.getIdFactura();
             columna[1] = formateador.format(f.getTotal());
-            columna[2] = formateador.format(Utils.Utils.getRetencionesByFactura(f.getIdFactura()));
-            columna[3] = formateador.format(Utils.Utils.getAbonos(f.getIdFactura(), 0));
+            columna[2] = formateador.format(f.getRetenciones());
+            columna[3] = formateador.format(f.getAbonos());
             columna[4] = sa.format(f.getFecha());
             columna[5] = df.format(f.getVencimiento());
             columna[6] = formateador.format(saldo);
@@ -3370,7 +3378,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             rh.tblHabitaciones.setModel(modelo);
 
         } catch (SQLException ex) {
-            System.out.println("error " + ex);
+            System.out.println("error linea 3381" + ex);
         }
     }
 
@@ -3614,7 +3622,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             pr.tblListaHospedaje.setModel(modelo);
             ocultarPaneles("mnuHospedaje");
         } catch (SQLException ex) {
-            System.out.println("error " + ex);
+            System.out.println("error linea 3625" + ex);
         }
     }
 
@@ -3666,7 +3674,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                         "Noche(s)");
                 ocultarPaneles("btnNewFactura");
             } catch (SQLException | ParseException ex) {
-                System.out.println("error " + ex);
+                System.out.println("error linea 3677" + ex);
             }
         } else {
             JOptionPane.showMessageDialog(null, "¡Debes seleccionar un registro!");
